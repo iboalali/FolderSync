@@ -22,7 +22,7 @@ namespace FolderSync {
         TcpClient clientSocket;
         TcpListener tcpListener;
         connectForm cForm;
-        string ip;
+        string ip = null;
         byte [] byteArray;
 
         public Form1 () {
@@ -33,11 +33,21 @@ namespace FolderSync {
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName;
             watcher.Created += new FileSystemEventHandler( OnFileCreated );
             watcher.Error += new ErrorEventHandler( OnError );
+            watcher.IncludeSubdirectories = true;
 
             // To read the pending file 
             //sr = new StreamReader( "pendingFiles.bin" );
 
+            string path = ModifyRegistry.Read( "LastPath" );
+            if ( path != null ) {
+                txtPath.Text = path;
+                watcher.Path = path;
+            }
 
+            string Ip = ModifyRegistry.Read( "LastIP" );
+            if ( Ip != null ) {
+                this.ip = Ip;
+            }
             clientSocket = new System.Net.Sockets.TcpClient();
             
         }
@@ -60,8 +70,16 @@ namespace FolderSync {
 
                     byteArray = rv.ToArray();
 
-                    SendData( byteArray );
+                    try {
+                        SendData( byteArray );
+
+                    } catch ( Exception ) {
+
+
+                        throw;
+                    }
                     break;
+
                 } catch ( IOException ) {
                     continue;
                 }
@@ -110,6 +128,7 @@ namespace FolderSync {
                 selectedPath = fbd.SelectedPath;
                 txtPath.Text = selectedPath;
                 watcher.Path = selectedPath;
+                ModifyRegistry.Write( "LastPath", selectedPath );
             }
 
 
@@ -119,11 +138,17 @@ namespace FolderSync {
         private void btnConnect_Click ( object sender, EventArgs e ) {
             if ( btnConnect.Text == "Connect" ) {
 
+                if ( ip != null ) {
+                    cForm = new connectForm(ip);
+
+                }
                 cForm = new connectForm();
 
                 if ( cForm.ShowDialog( this ) == DialogResult.OK ) {
-                    ip = cForm.txtIP.Text;
+                    
 
+                    ip = cForm.txtIP.Text;
+                    ModifyRegistry.Write( "LastIP", ip );
                     // Connect to the client
                     Connect( ip );
 

@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Win32;
 using System.Windows.Forms;
 
-namespace KeySend
+namespace FolderSync
 {
  
     public static class ModifyRegistry
@@ -34,7 +34,7 @@ namespace KeySend
         }
 
        
-        private static string Read(string KeyName)
+        public static string Read(string KeyName)
         {
             // Opening the registry key
             RegistryKey rk = baseRegistryKey;
@@ -63,7 +63,7 @@ namespace KeySend
         }
 
       
-        private static bool Write(string KeyName, object Value)
+        public static bool Write(string KeyName, object Value)
         {
             try
             {
@@ -74,14 +74,14 @@ namespace KeySend
                 // 'cause OpenSubKey open a subKey as read-only
                 RegistryKey sk1 = rk.CreateSubKey(subKey);
                 // Save the value
-                sk1.SetValue(KeyName.ToUpper(), Value);
+                sk1.SetValue(KeyName, Value);
 
                 return true;
             }
             catch (Exception e)
             {
                 // AAAAAAAAAAARGH, an error!
-                ShowErrorMessage(e, "Writing registry " + KeyName.ToUpper());
+                ShowErrorMessage(e, "Writing registry " + KeyName);
                 return false;
             }
         }

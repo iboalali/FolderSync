@@ -10,10 +10,11 @@ using System.Windows.Forms;
 
 namespace FolderSync {
     public partial class connectForm : Form {
-        public connectForm () {
+        public connectForm ( string ip = "" ) {
             InitializeComponent();
 
             txtIP.Focus();
+            txtIP.Text = ip;
         }
 
         private void btnCancel_Click ( object sender, EventArgs e ) {
