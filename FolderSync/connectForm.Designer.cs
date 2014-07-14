@@ -26,14 +26,15 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtIP = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.txtPort = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(122, 38);
+            this.btnCancel.Location = new System.Drawing.Point(137, 38);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(60, 23);
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -43,7 +44,7 @@
             // 
             this.txtIP.Location = new System.Drawing.Point(39, 12);
             this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(158, 20);
+            this.txtIP.Size = new System.Drawing.Size(92, 20);
             this.txtIP.TabIndex = 1;
             this.txtIP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIP_KeyPress);
             // 
@@ -51,11 +52,18 @@
             // 
             this.btnConnect.Location = new System.Drawing.Point(39, 38);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.Size = new System.Drawing.Size(92, 23);
             this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(137, 12);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(60, 20);
+            this.txtPort.TabIndex = 3;
             // 
             // connectForm
             // 
@@ -63,10 +71,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(235, 77);
+            this.ClientSize = new System.Drawing.Size(235, 78);
+            this.Controls.Add(this.txtPort);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.txtIP);
             this.Controls.Add(this.btnCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "connectForm";
             this.Text = "Connect To";
             this.ResumeLayout(false);
@@ -79,5 +90,6 @@
         private System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.TextBox txtIP;
         private System.Windows.Forms.Button btnConnect;
+        public System.Windows.Forms.TextBox txtPort;
     }
 }

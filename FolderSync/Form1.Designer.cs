@@ -75,6 +75,8 @@
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.btnBrowse);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Folder Sync";
             this.ResumeLayout(false);

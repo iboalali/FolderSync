@@ -20,9 +20,9 @@ namespace FolderSync {
         //StreamReader sr;
         FileStream fs;
         TcpClient clientSocket;
-        TcpListener tcpListener;
         connectForm cForm;
         string ip = null;
+        string port = null;
         byte [] byteArray;
 
         public Form1 () {
@@ -44,10 +44,7 @@ namespace FolderSync {
                 watcher.Path = path;
             }
 
-            string Ip = ModifyRegistry.Read( "LastIP" );
-            if ( Ip != null ) {
-                this.ip = Ip;
-            }
+            
             clientSocket = new System.Net.Sockets.TcpClient();
             
         }
@@ -138,24 +135,40 @@ namespace FolderSync {
         private void btnConnect_Click ( object sender, EventArgs e ) {
             if ( btnConnect.Text == "Connect" ) {
 
-                if ( ip != null ) {
-                    cForm = new connectForm(ip);
-
-                }
                 cForm = new connectForm();
 
                 if ( cForm.ShowDialog( this ) == DialogResult.OK ) {
                     
 
                     ip = cForm.txtIP.Text;
+                    port = cForm.txtPort.Text;
+
+                    while ( true ) {
+                        try {
+                            // Connect to the client
+                            Connect( ip );
+
+                            //  Begin watching.
+                            watcher.EnableRaisingEvents = true;
+
+                            btnConnect.Text = "Disconnect";
+                            break;
+
+                        } catch ( SocketException ) {
+                            DialogResult r = MessageBox.Show( "Could not connect to " + ip + ":" + port, "Connection Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error );
+                            if ( r == DialogResult.Retry ) {
+                                continue;
+
+                            }
+                            break;
+                            
+                        }
+                    }
+
                     ModifyRegistry.Write( "LastIP", ip );
-                    // Connect to the client
-                    Connect( ip );
+                    ModifyRegistry.Write( "LastPort", port );
 
-                    //  Begin watching.
-                    watcher.EnableRaisingEvents = true;
-
-                    btnConnect.Text = "Disconnect";
+                    
                 } 
             } else {
                 btnConnect.Text = "Connect";
